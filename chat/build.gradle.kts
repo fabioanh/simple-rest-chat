@@ -31,7 +31,11 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.postgresql:postgresql")
     // test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "org.mockito.mockito-core")
+    }
+    testImplementation("com.ninja-squad:springmockk:3.1.1")
+    testImplementation("io.mockk:mockk:1.12.3")
     testImplementation("org.springframework.amqp:spring-rabbit-test")
 }
 
