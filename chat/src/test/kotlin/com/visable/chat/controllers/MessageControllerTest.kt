@@ -17,6 +17,7 @@ class MessageControllerTest {
     fun createMessage_regularScenario_successfulResponse() {
         val messageJsonStr = sampleMessage("420", "6")
         mockMvc.post("/users/420/messages") {
+            header("USER_ID_AUTH", "420")
             contentType = MediaType.APPLICATION_JSON
             content = messageJsonStr
         }
@@ -29,6 +30,7 @@ class MessageControllerTest {
     fun createMessage_specialCharactersMessage_successfulResponse() {
         val messageJsonStr = sampleJsonReservedCharactersMessage()
         mockMvc.post("/users/420/messages") {
+            header("USER_ID_AUTH", "420")
             contentType = MediaType.APPLICATION_JSON
             content = messageJsonStr
         }
@@ -41,6 +43,7 @@ class MessageControllerTest {
     fun createMessage_messageSentToSelf_badRequest() {
         val messageJsonStr = sampleMessage("420", "420")
         mockMvc.post("/users/420/messages") {
+            header("USER_ID_AUTH", "420")
             contentType = MediaType.APPLICATION_JSON
             content = messageJsonStr
         }
@@ -51,7 +54,9 @@ class MessageControllerTest {
 
     @Test
     fun sentMessages_allMessagesForUser_messagesRetrieved() {
-        mockMvc.get("/users/420/sent-messages")
+        mockMvc.get("/users/420/sent-messages"){
+            header("USER_ID_AUTH", "420")
+        }
             .andExpect {
                 status { isOk() }
                 content { json(sentMessages()) }
@@ -60,7 +65,9 @@ class MessageControllerTest {
 
     @Test
     fun receivedMessages_allMessagesOfUser_messagesRetrieved() {
-        mockMvc.get("/users/420/received-messages")
+        mockMvc.get("/users/420/received-messages"){
+            header("USER_ID_AUTH", "420")
+        }
             .andExpect {
                 status { isOk() }
                 content { json(receivedMessages()) }
@@ -69,10 +76,23 @@ class MessageControllerTest {
 
     @Test
     fun receivedMessages_allMessagesFromSpecificUser_messagesRetrieved() {
-        mockMvc.get("/users/420/received-messages?from=6")
+        mockMvc.get("/users/420/received-messages?from=6"){
+            header("USER_ID_AUTH", "420")
+        }
             .andExpect {
                 status { isOk() }
                 content { json(receivedSpecificMessages()) }
+            }
+    }
+
+    @Test
+    fun receivedMessages_wrongUserIdHeader_messagesRetrieved() {
+        mockMvc.get("/users/420/received-messages?from=6"){
+            header("USER_ID_AUTH", "421")
+        }
+            .andExpect {
+                status { isForbidden() }
+                content { json("{\"reason\": \"Unauthorised access to resource\"}") }
             }
     }
 

@@ -1,3 +1,6 @@
 package com.visable.chat.repositories
 
-interface UserRepository
+import com.visable.chat.data.User
+import org.springframework.data.repository.CrudRepository
+
+interface UserRepository : CrudRepository<User, Long>
