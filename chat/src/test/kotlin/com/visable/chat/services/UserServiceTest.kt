@@ -4,17 +4,16 @@ import com.visable.chat.controllers.dtos.CreateUserDto
 import com.visable.chat.controllers.dtos.UserDto
 import com.visable.chat.data.User
 import com.visable.chat.repositories.UserRepository
+import com.visable.chat.services.exceptions.DuplicateNicknameException
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
-import org.hibernate.exception.ConstraintViolationException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.dao.DataIntegrityViolationException
-import java.sql.SQLException
 
 internal class UserServiceTest {
 

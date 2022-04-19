@@ -3,7 +3,7 @@ package com.visable.chat.controllers
 import com.ninjasquad.springmockk.MockkBean
 import com.visable.chat.controllers.dtos.CreateUserDto
 import com.visable.chat.controllers.dtos.UserDto
-import com.visable.chat.services.DuplicateNicknameException
+import com.visable.chat.services.exceptions.DuplicateNicknameException
 import com.visable.chat.services.UserService
 import io.mockk.every
 import org.junit.jupiter.api.Test

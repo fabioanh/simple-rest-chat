@@ -3,6 +3,8 @@ package com.visable.chat.services
 import com.visable.chat.controllers.dtos.MessageDto
 import com.visable.chat.data.Message
 import com.visable.chat.repositories.ConversationRepository
+import com.visable.chat.services.exceptions.InvalidRecipientException
+import com.visable.chat.services.exceptions.UserNotFoundException
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs

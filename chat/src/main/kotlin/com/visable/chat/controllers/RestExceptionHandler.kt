@@ -1,8 +1,8 @@
 package com.visable.chat.controllers
 
-import com.visable.chat.services.DuplicateNicknameException
-import com.visable.chat.services.InvalidRecipientException
-import com.visable.chat.services.UserNotFoundException
+import com.visable.chat.services.exceptions.DuplicateNicknameException
+import com.visable.chat.services.exceptions.InvalidRecipientException
+import com.visable.chat.services.exceptions.UserNotFoundException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
