@@ -1,7 +1,11 @@
 package com.visable.chat.controllers
 
 import com.ninjasquad.springmockk.MockkBean
+import com.visable.chat.controllers.dtos.CreateUserDto
+import com.visable.chat.controllers.dtos.UserDto
+import com.visable.chat.services.DuplicateNicknameException
 import com.visable.chat.services.UserService
+import io.mockk.every
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -19,6 +23,9 @@ class UserControllerTest {
 
     @Test
     fun createUser_regularOperation_created() {
+
+        every { userService.saveUser(CreateUserDto("tyler.durden")) }
+            .returns(UserDto(420, "tyler.durden"))
 
         val userJsonStr = sampleUser()
 
@@ -40,6 +47,9 @@ class UserControllerTest {
 
     @Test
     fun createUser_duplicateNickname_badRequest() {
+
+        every { userService.saveUser(CreateUserDto("tyler.durden")) }
+            .throws(DuplicateNicknameException())
 
         val userJsonStr = sampleUser()
 

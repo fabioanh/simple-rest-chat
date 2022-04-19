@@ -20,6 +20,10 @@ class RestExceptionHandler : ResponseEntityExceptionHandler() {
             UserNotFoundException::class
         ]
     )
-    fun duplicateNickname(e: DuplicateNicknameException, request: WebRequest) =
-        handleExceptionInternal(e, e.message, HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request)
+    fun systemBadRequestError(e: Exception, request: WebRequest) =
+        handleExceptionInternal(e, wrapResponse(e), HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request)
+
+    private fun wrapResponse(exception: Exception) = ErrorResponse(exception.message!!)
 }
+
+data class ErrorResponse(val reason: String)
