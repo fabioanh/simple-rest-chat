@@ -1,5 +1,6 @@
 package com.visable.chat.data
 
+import com.visable.chat.controllers.dtos.UserDto
 import javax.persistence.*
 
 @Entity(name = "users")
@@ -9,4 +10,6 @@ data class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     val nickname: String
-)
+) {
+    fun toDto(): UserDto = UserDto(id, nickname)
+}
