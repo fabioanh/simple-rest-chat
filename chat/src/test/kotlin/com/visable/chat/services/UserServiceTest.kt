@@ -13,6 +13,7 @@ import org.hibernate.exception.ConstraintViolationException
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.dao.DataIntegrityViolationException
 import java.sql.SQLException
 
 internal class UserServiceTest {
@@ -41,7 +42,7 @@ internal class UserServiceTest {
     @Test
     fun saveUser_existingNickname_existingNicknameException() {
         // given
-        every { userRepository.save(any()) }.throws(ConstraintViolationException("", SQLException(), ""))
+        every { userRepository.save(any()) }.throws(DataIntegrityViolationException(""))
         val userDto = CreateUserDto("tyler.durden")
         // when
         Assertions.assertThrows(DuplicateNicknameException::class.java) {

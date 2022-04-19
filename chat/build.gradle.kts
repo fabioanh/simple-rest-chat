@@ -30,6 +30,7 @@ dependencies {
     // db
     implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.postgresql:postgresql")
+    implementation("com.vladmihalcea:hibernate-types-52:2.16.1")
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "org.mockito.mockito-core")

@@ -1,6 +1,6 @@
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
-	username VARCHAR ( 50 ) UNIQUE
+	nickname VARCHAR ( 50 ) UNIQUE
 );
 
 CREATE TABLE conversations (

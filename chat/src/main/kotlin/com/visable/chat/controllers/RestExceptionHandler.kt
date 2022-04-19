@@ -26,4 +26,5 @@ class RestExceptionHandler : ResponseEntityExceptionHandler() {
     private fun wrapResponse(exception: Exception) = ErrorResponse(exception.message!!)
 }
 
+// This error wrapper can be extended with additional properties if the custom error requires them
 data class ErrorResponse(val reason: String)
