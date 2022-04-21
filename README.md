@@ -18,22 +18,22 @@ curl --request POST 'localhost:8080/users' --header 'Content-Type: application/j
 ```
 The second resource exposed by the API is known as `messages`. This resource is only accessible through a relationship with a specific `user`. Because of this all different kinds of messages have to be retrieved giving the _user identifier_ in the url parameters. The following `curl` requests show the possible messages to be retrieved for a specific user:
 
-**Message sending**:
+**Message sending:**
 ``` sh
 curl --request POST 'localhost:8080/users/1/messages' --header 'USER_ID_AUTH: 1' --header 'Content-Type: application/json' --data-raw '{"to": 2, "content": "Hello"}'
 ```
 
-**Retrieval of all sent messages**
+**Retrieval of all sent messages:**
 ``` sh
 curl --request GET 'localhost:8080/users/1/sent-messages' --header 'USER_ID_AUTH: 1'
 ```
 
-**Retrieval of all received messages**
+**Retrieval of all received messages:**
 ``` sh
 curl --request GET 'localhost:8080/users/1/received-messages' --header 'USER_ID_AUTH: 1' 
 ```
 
-**Retrieval of all messages received from a specific user**
+**Retrieval of all messages received from a specific user:**
 ``` sh
 curl --location --request GET 'localhost:8080/users/2/received-messages?from=1' --header 'USER_ID_AUTH: 2'
 ```
