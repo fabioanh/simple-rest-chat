@@ -1,26 +1,37 @@
 package com.visable.chat.repositories
 
 import com.visable.chat.data.Conversation
-import com.visable.chat.data.Message
+import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.query.Param
+import org.springframework.transaction.annotation.Transactional
 
 interface ConversationRepository : CrudRepository<Conversation, Long> {
     /**
-     * Find the messages sent by the userId given as parameter
+     * Find the conversation identifier given the list of user ids taking part in the conversation
      */
-    @Query("", nativeQuery = true)
-    fun findSentMessages(userId: Long): List<Message>
+    @Query("select * from conversations WHERE (users->'users')\\:\\:jsonb @> :userId\\:\\:jsonb", nativeQuery = true)
+    fun findConversationsByUserId(@Param("userId") userId: String): List<Conversation>
 
     /**
-     * Find the messages sent to the userId given as parameter
+     * Find the conversation identifier given the list of user ids taking part in the conversation
      */
-    @Query("", nativeQuery = true)
-    fun findReceivedMessages(userId: Long): List<Message>
+    @Query("select id from conversations WHERE (users->'users')\\:\\:jsonb @> :userIds\\:\\:jsonb", nativeQuery = true)
+    fun findConversationIdByUserIds(@Param("userIds") userIds: String): Long
 
     /**
-     * Find the messages sent to the userId from the user given as `from` parameter
+     * Appends a message to the conversation identified by the given id
      */
-    @Query("", nativeQuery = true)
-    fun findReceivedMessagesFrom(userId: Long, from: Long): List<Message>
+    @Modifying
+    @Transactional
+    @Query(
+        "UPDATE conversations " +
+                "SET messages = jsonb_set(" +
+                "messages\\:\\:jsonb, " +
+                "array['messages'], " +
+                "(messages->'messages')\\:\\:jsonb || :message\\:\\:jsonb) WHERE id = :conversationId",
+        nativeQuery = true
+    )
+    fun appendMessageToConversation(@Param("conversationId") conversationId: Long, @Param("message") message: String)
 }

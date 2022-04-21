@@ -29,8 +29,8 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     // db
     implementation("org.flywaydb:flyway-core")
+    implementation("com.vladmihalcea:hibernate-types-55:2.16.1")
     runtimeOnly("org.postgresql:postgresql")
-    implementation("com.vladmihalcea:hibernate-types-52:2.16.1")
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "org.mockito.mockito-core")

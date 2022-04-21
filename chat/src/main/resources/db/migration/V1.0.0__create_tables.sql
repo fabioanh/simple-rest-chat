@@ -6,5 +6,5 @@ CREATE TABLE users (
 CREATE TABLE conversations (
 	id SERIAL PRIMARY KEY,
 	users JSON,
-	conversation JSON
+	messages JSON
 );

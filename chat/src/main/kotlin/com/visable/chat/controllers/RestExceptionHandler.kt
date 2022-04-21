@@ -1,8 +1,8 @@
 package com.visable.chat.controllers
 
+import com.visable.chat.controllers.exceptions.ForbiddenAccessException
 import com.visable.chat.services.exceptions.DuplicateNicknameException
 import com.visable.chat.services.exceptions.InvalidRecipientException
-import com.visable.chat.services.exceptions.UserNotFoundException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -17,11 +17,18 @@ class RestExceptionHandler : ResponseEntityExceptionHandler() {
         value = [
             DuplicateNicknameException::class,
             InvalidRecipientException::class,
-            UserNotFoundException::class
         ]
     )
     fun systemBadRequestError(e: Exception, request: WebRequest) =
         handleExceptionInternal(e, wrapResponse(e), HttpHeaders.EMPTY, HttpStatus.BAD_REQUEST, request)
+
+    @ExceptionHandler(
+        value = [
+            ForbiddenAccessException::class,
+        ]
+    )
+    fun forbiddenError(e: Exception, request: WebRequest) =
+        handleExceptionInternal(e, wrapResponse(e), HttpHeaders.EMPTY, HttpStatus.FORBIDDEN, request)
 
     private fun wrapResponse(exception: Exception) = ErrorResponse(exception.message!!)
 }

@@ -1,5 +1,5 @@
 package com.visable.chat.data
 
 data class ConversationUsers(
-    val users: List<String>
+    val users: List<Long>
 )
