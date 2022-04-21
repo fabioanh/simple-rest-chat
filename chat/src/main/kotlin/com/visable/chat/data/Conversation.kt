@@ -9,7 +9,7 @@ import javax.persistence.*
 
 @Entity(name = "conversations")
 @TypeDefs(
-    TypeDef(name = "json", typeClass = JsonStringType::class),
+    TypeDef(name = "json", typeClass = JsonBinaryType::class),
     TypeDef(name = "jsonb", typeClass = JsonBinaryType::class)
 )
 data class Conversation(

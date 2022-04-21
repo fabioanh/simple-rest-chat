@@ -4,15 +4,18 @@ MAINTAINER fabio.navarrete
 WORKDIR /app/
 
 COPY build.gradle.kts settings.gradle.kts gradlew /app/
+RUN true
 COPY gradle /app/gradle
-
+RUN true
 COPY ./build.gradle.kts ./build.gradle.kts
-
+RUN true
 # Copy the project sources
 COPY ./src ./src
 
 RUN ./gradlew build -x test || return 0
+RUN true
 COPY . .
+RUN true
 RUN ./gradlew build -x test
 
 
