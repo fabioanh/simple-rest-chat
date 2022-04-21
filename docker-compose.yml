@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:14.2-alpine3.15
+    restart: unless-stopped
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      # copy the sql script to create the database and application user
+      - ./sql/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+  chat: 
+    image: chat
+    container_name: chat
+    build: ./chat
+    restart: on-failure
+    env_file: ./.env
+    ports:
+      - $LOCAL_PORT:$DOCKER_PORT
+    stdin_open: true
+    tty: true
+
+    # environment:
+      # - SPRING_RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - postgres
+      - rabbitmq

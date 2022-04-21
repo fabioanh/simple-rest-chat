@@ -1,0 +1,4 @@
+CREATE USER visable WITH PASSWORD 'visable';
+
+CREATE DATABASE visable;
+GRANT ALL PRIVILEGES ON DATABASE visable TO visable;
